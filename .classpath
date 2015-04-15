@@ -2,10 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
-	<classpathentry kind="lib" path="E:/Development/worldwind-2.0.0/gdal.jar"/>
-	<classpathentry kind="lib" path="E:/Development/worldwind-2.0.0/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="E:/Development/worldwind-2.0.0/jogl-all.jar"/>
-	<classpathentry kind="lib" path="E:/Development/worldwind-2.0.0/worldwind.jar"/>
-	<classpathentry kind="lib" path="E:/Development/worldwind-2.0.0/worldwindx.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mmatarazzo/worldwind-2.0.0/gdal.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mmatarazzo/worldwind-2.0.0/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mmatarazzo/worldwind-2.0.0/jogl-all.jar"/>
+	<classpathentry kind="lib" path="C:/Users/mmatarazzo/worldwind-2.0.0/worldwind.jar" sourcepath="C:/Users/mmatarazzo/workspace/worldwind-2.0.0/src"/>
+	<classpathentry kind="lib" path="C:/Users/mmatarazzo/worldwind-2.0.0/worldwindx.jar" sourcepath="C:/Users/mmatarazzo/workspace/worldwind-2.0.0/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
