@@ -524,6 +524,9 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadMid1PartCyl.setRadii(12964.0, 22224.0);
 			iadMid1PartCyl.setAzimuths(Angle.fromDegrees(144.0),
 					Angle.fromDegrees(39.0));
+			
+			//iadMid1PartCyl.setAzimuths(  );
+			
 			iadMid1PartCyl.setValue(AVKey.DISPLAY_NAME,
 					"Dulles Class B Middle - 1,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadMid1PartCyl, Color.BLUE);
@@ -721,6 +724,17 @@ public class AirspacesGA extends ApplicationTemplate {
 
 	protected static Iterable<LatLon> makeLatLon(double[] src) {
 		return makeLatLon(src, 0, src.length);
+	}
+	
+	// Official airspace description does not specify azimuths needed for polyarcs
+	protected static double makeAngle(double lat1, double lon1, double lat2, double lon2) {
+		double x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2) * Math.cos(lon2-lon1);
+		double y = Math.sin(lon2-lon1)*Math.cos(lat2);
+		
+		double theta = Math.atan2(y, x);
+		double degrees = Math.toDegrees(theta);
+		
+		return (degrees < 0.0 ? degrees+360.0 : degrees);
 	}
 
 }
