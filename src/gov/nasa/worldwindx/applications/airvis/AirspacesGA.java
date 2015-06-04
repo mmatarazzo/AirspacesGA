@@ -296,6 +296,7 @@ public class AirspacesGA extends ApplicationTemplate {
 				JCheckBox cb = (JCheckBox) e.getSource();
 				if (cb.isSelected()) {
 					this.doDrawDcSfra();
+					this.doDrawHefClassD();
 				} else {
 					this.doRemoveDcSfra();
 				}
@@ -693,6 +694,21 @@ public class AirspacesGA extends ApplicationTemplate {
 			}
 
 			this.setAirspaces(airspaces.values());
+		}
+		
+		public void doDrawHefClassD() {
+			// Manassas Regional Class D
+			CappedCylinder hefClassDCyl = new CappedCylinder();
+			hefClassDCyl.setCenter(LatLon.fromDegrees(38.7277, -77.5188));
+			hefClassDCyl.setRadius(7408.0);
+			hefClassDCyl.setAltitudes(0.0, 609.5999);
+			hefClassDCyl.setTerrainConforming(true, true);
+			hefClassDCyl.setValue(AVKey.DISPLAY_NAME, "Manassass Regional (HEF) Class D. SFC - (not including) 2,000FT MSL.");
+			this.setupDefaultMaterial(hefClassDCyl, Color.decode("#4B0082"));
+			airspaces.put("HEF-D", hefClassDCyl);
+			
+			this.setAirspaces(airspaces.values());
+			
 		}
 
 		public void doZoomToAirspaces() {
