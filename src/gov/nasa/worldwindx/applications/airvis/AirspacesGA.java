@@ -75,6 +75,7 @@ public class AirspacesGA extends ApplicationTemplate {
 
 	public static final String ACTION_COMMAND_DRAW_DCSFRA = "ActionCommandDrawDCSFRA";
 	public static final String ACTION_COMMAND_DRAW_IADCLASSB = "ActionCommandDrawIADCLASSB";
+	public static final String ACTION_COMMAND_DRAW_HEFCLASSD = "ActionCommandDrawHEFCLASSD";
 
 	public static class AppFrame extends ApplicationTemplate.AppFrame {
 
@@ -183,6 +184,12 @@ public class AirspacesGA extends ApplicationTemplate {
 			cb.setActionCommand(ACTION_COMMAND_DRAW_IADCLASSB);
 			cb.addActionListener(this);
 			this.add(cb);
+			
+			cb = new JCheckBox("HEF CLASS D", false);
+			cb.setActionCommand(ACTION_COMMAND_DRAW_HEFCLASSD);
+			cb.addActionListener(this);
+			this.add(cb);
+			
 		}
 
 		public void addActionListener(ActionListener listener) {
@@ -239,7 +246,7 @@ public class AirspacesGA extends ApplicationTemplate {
 			insertBeforePlacenames(this.frame.getWwd(), this.amslAirspaces);
 
 			this.airspaces = new HashMap<String, Airspace>();
-
+			
 			this.initializeSelectionMonitoring();
 		}
 
@@ -291,22 +298,29 @@ public class AirspacesGA extends ApplicationTemplate {
 				this.aglAirspaces.setDrawExtents(cb.isSelected());
 				this.amslAirspaces.setDrawExtents(cb.isSelected());
 				this.getWwd().redraw();
-			} else if (ACTION_COMMAND_DRAW_DCSFRA.equalsIgnoreCase(e
-					.getActionCommand())) {
+			} else if (ACTION_COMMAND_DRAW_DCSFRA.equalsIgnoreCase(
+					e.getActionCommand())) {
 				JCheckBox cb = (JCheckBox) e.getSource();
 				if (cb.isSelected()) {
 					this.doDrawDcSfra();
-					this.doDrawHefClassD();
 				} else {
 					this.doRemoveDcSfra();
 				}
-			} else if (ACTION_COMMAND_DRAW_IADCLASSB.equalsIgnoreCase(e
-					.getActionCommand())) {
+			} else if (ACTION_COMMAND_DRAW_IADCLASSB.equalsIgnoreCase(
+					e.getActionCommand())) {
 				JCheckBox cb = (JCheckBox) e.getSource();
 				if (cb.isSelected()) {
 					this.doDrawIadClassB();
 				} else {
 					this.doRemoveIadClassB();
+				}
+			} else if (ACTION_COMMAND_DRAW_HEFCLASSD.equalsIgnoreCase(
+					e.getActionCommand())) {
+				JCheckBox cb = (JCheckBox) e.getSource();
+				if (cb.isSelected()) {
+					this.doDrawHefClassD();
+				} else {
+					this.doRemoveHefClassD();
 				}
 			}
 		}
@@ -400,7 +414,8 @@ public class AirspacesGA extends ApplicationTemplate {
 			a.getAttributes().setMaterial(new Material(color));
 			a.getAttributes().setOutlineMaterial(
 					new Material(WWUtil.makeColorBrighter(color)));
-			a.getAttributes().setOpacity(0.8);
+			// Down from 0.8 for better vis
+			a.getAttributes().setOpacity(0.4);
 			a.getAttributes().setOutlineOpacity(0.9);
 			a.getAttributes().setOutlineWidth(3.0);
 		}
@@ -504,67 +519,50 @@ public class AirspacesGA extends ApplicationTemplate {
 		public void doDrawIadClassB() {
 			// Dulles Class B Inner
 			CappedCylinder iadInnerCyl = new CappedCylinder();
-			// iadInnerCyl.setCenter(LatLon.fromDegrees(38.9345964,
-			// -77.4666953));
 			iadInnerCyl.setCenter(LatLon.fromDegrees(38.934722, -77.466667));
 			iadInnerCyl.setRadius(12964.0);
 			iadInnerCyl.setAltitudes(0.0, 3048.0);
 			iadInnerCyl.setTerrainConforming(true, true);
-			iadInnerCyl.setValue(AVKey.DISPLAY_NAME,
-					"Dulles Class B Inner - SFC to 10,000 ft. MSL");
+			iadInnerCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Inner - SFC to 10,000 ft. MSL");
 			this.setupDefaultMaterial(iadInnerCyl, Color.BLUE);
 			airspaces.put("IAD-I", iadInnerCyl);
 
 			// Dulles Class B Mid 1
 			PartialCappedCylinder iadMid1PartCyl = new PartialCappedCylinder();
-			// iadMid1PartCyl.setCenter(LatLon.fromDegrees(38.9345964,
-			// -77.4666953));
 			iadMid1PartCyl.setCenter(LatLon.fromDegrees(38.934722, -77.466667));
 			iadMid1PartCyl.setAltitudes(457.2, 3048.0);
 			iadMid1PartCyl.setTerrainConforming(false, false);
 			iadMid1PartCyl.setRadii(12964.0, 22224.0);
-			iadMid1PartCyl.setAzimuths(Angle.fromDegrees(144.0),
-					Angle.fromDegrees(39.0));
-			
-			//iadMid1PartCyl.setAzimuths(  );
-			
-			iadMid1PartCyl.setValue(AVKey.DISPLAY_NAME,
-					"Dulles Class B Middle - 1,500 to 10,000 ft. MSL.");
+			// TODO use method
+			iadMid1PartCyl.setAzimuths(Angle.fromDegrees(144.0), Angle.fromDegrees(39.0));
+			iadMid1PartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Middle - 1,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadMid1PartCyl, Color.BLUE);
 			airspaces.put("IAD-M1", iadMid1PartCyl);
 
 			// Dulles Class B Mid 2
 			PolyArc iadMid2PolyArc = new PolyArc();
 			iadMid2PolyArc.setLocations(Arrays.asList(
-			// LatLon.fromDegrees(38.9345964, -77.4666953),
 					LatLon.fromDegrees(38.934722, -77.466667),
-					// LatLon.fromDegrees(39.07095, -77.27885),
 					LatLon.fromDegrees(39.09, -77.304722),
-					// LatLon.fromDegrees(38.75615, -77.35055)
 					LatLon.fromDegrees(38.772778, -77.316111)));
 			iadMid2PolyArc.setAltitudes(457.2, 3048.0);
 			iadMid2PolyArc.setRadius(12964.0);
-			iadMid2PolyArc.setAzimuths(Angle.fromDegrees(39.0),
-					Angle.fromDegrees(144.0));
+			// TODO use method
+			iadMid2PolyArc.setAzimuths(Angle.fromDegrees(39.0), Angle.fromDegrees(144.0));
 			iadMid2PolyArc.setTerrainConforming(false, false);
-			iadMid2PolyArc.setValue(AVKey.DISPLAY_NAME,
-					"Dulles Class B Middle - 1,500 to 10,000 ft. MSL.");
+			iadMid2PolyArc.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Middle - 1,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadMid2PolyArc, Color.BLUE);
 			airspaces.put("IAD-M2", iadMid2PolyArc);
 
 			// Dulles Class B Outer 1A
 			PartialCappedCylinder iadOuter1APartCyl = new PartialCappedCylinder();
-			// iadOuter1APartCyl.setCenter(LatLon.fromDegrees(38.9345964,
-			// -77.4666953));
-			iadOuter1APartCyl.setCenter(LatLon.fromDegrees(38.934722,
-					-77.466667));
+			iadOuter1APartCyl.setCenter(LatLon.fromDegrees(38.934722, -77.466667));
 			iadOuter1APartCyl.setAltitudes(762.0, 3048.0);
 			iadOuter1APartCyl.setTerrainConforming(false, false);
 			iadOuter1APartCyl.setRadii(22224.0, 27780.0);
-			iadOuter1APartCyl.setAzimuths(Angle.fromDegrees(160.0),
-					Angle.fromDegrees(30.7));
-			iadOuter1APartCyl.setValue(AVKey.DISPLAY_NAME,
-					"Dulles Class B Outer - 2,500 to 10,000 ft. MSL.");
+			// TODO use methods
+			iadOuter1APartCyl.setAzimuths(Angle.fromDegrees(160.0), Angle.fromDegrees(30.7));
+			iadOuter1APartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 2,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter1APartCyl, Color.BLUE);
 			airspaces.put("IAD-O1A", iadOuter1APartCyl);
 
@@ -572,87 +570,95 @@ public class AirspacesGA extends ApplicationTemplate {
 			PolyArc iadOuter1BPolyArc = new PolyArc();
 			iadOuter1BPolyArc.setLocations(Arrays.asList(
 					LatLon.fromDegrees(38.934722, -77.466667),
-					LatLon.fromDegrees(39.149722, -77.302778) // ,
-					// LatLon.fromDegrees(39.275556, -77.347222),
-					// LatLon.fromDegrees(39.1288, -77.2644)
-					));
+					LatLon.fromDegrees(39.149722, -77.302778)));
 			iadOuter1BPolyArc.setAltitudes(762.0, 3048.0);
 			iadOuter1BPolyArc.setRadius(22224.0);
-			iadOuter1BPolyArc.setAzimuths(Angle.fromDegrees(30.7),
-					Angle.fromDegrees(39.0));
+			// TODO use method
+			iadOuter1BPolyArc.setAzimuths(Angle.fromDegrees(30.7), Angle.fromDegrees(39.0));
 			iadOuter1BPolyArc.setTerrainConforming(false, false);
-			iadOuter1BPolyArc.setValue(AVKey.DISPLAY_NAME,
-					"Dulles Class B Outer - 2,500 to 10,000 ft. MSL.");
+			iadOuter1BPolyArc.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 2,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter1BPolyArc, Color.BLUE);
 			airspaces.put("IAD-O1B", iadOuter1BPolyArc);
 
 			// Dulles Class B Outer 2A
 			PartialCappedCylinder iadOuter2APartCyl = new PartialCappedCylinder();
-			// iadOuter2APartCyl.setCenter(LatLon.fromDegrees(38.9345964,
-			// -77.4666953));
-			iadOuter2APartCyl.setCenter(LatLon.fromDegrees(38.934722,
-					-77.466667));
+			iadOuter2APartCyl.setCenter(LatLon.fromDegrees(38.934722, -77.466667));
 			iadOuter2APartCyl.setAltitudes(1371.6, 3048.0);
 			iadOuter2APartCyl.setTerrainConforming(false, false);
 			iadOuter2APartCyl.setRadii(27780.0, 37040.0);
-			iadOuter2APartCyl.setAzimuths(Angle.fromDegrees(220.0),
+			// TODO use method
+			iadOuter2APartCyl.setAzimuths(Angle.fromDegrees(makeAngle(38.722222, -77.636111, 38.651389, -77.691944)), 
 					Angle.fromDegrees(337.0));
-			iadOuter2APartCyl.setValue(AVKey.DISPLAY_NAME,
-					"Dulles Class B Outer - 4,500 to 10,000 ft. MSL.");
+			iadOuter2APartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 4,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter2APartCyl, Color.BLUE);
 			airspaces.put("IAD-O2A", iadOuter2APartCyl);
 
 			// Dulles Class B Outer 2B
 			PartialCappedCylinder iadOuter2BPartCyl = new PartialCappedCylinder();
-			// iadOuter2BPartCyl.setCenter(LatLon.fromDegrees(38.9345964,
-			// -77.4666953));
-			iadOuter2BPartCyl.setCenter(LatLon.fromDegrees(38.934722,
-					-77.466667));
+			iadOuter2BPartCyl.setCenter(LatLon.fromDegrees(38.934722, -77.466667));
 			iadOuter2BPartCyl.setAltitudes(914.4, 3048.0);
 			iadOuter2BPartCyl.setTerrainConforming(false, false);
 			iadOuter2BPartCyl.setRadii(27780.0, 37040.0);
-			iadOuter2BPartCyl.setAzimuths(Angle.fromDegrees(170.0),
-					Angle.fromDegrees(220.0));
-			iadOuter2BPartCyl.setValue(AVKey.DISPLAY_NAME,
-					"Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
+			iadOuter2BPartCyl.setAzimuths(Angle.fromDegrees(makeAngle(38.934722, -77.4666673, 38.610556, -77.568333)), 
+					Angle.fromDegrees(makeAngle(38.722222, -77.636111, 38.651389, -77.691944)));
+			iadOuter2BPartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter2BPartCyl, Color.BLUE);
 			airspaces.put("IAD-O2B", iadOuter2BPartCyl);
 
 			// Dulles Class B Outer 2C
 			PartialCappedCylinder iadOuter2CPartCyl = new PartialCappedCylinder();
-			// iadOuter2CPartCyl.setCenter(LatLon.fromDegrees(38.9345964,
-			// -77.4666953));
-			iadOuter2CPartCyl.setCenter(LatLon.fromDegrees(38.934722,
-					-77.466667));
+			iadOuter2CPartCyl.setCenter(LatLon.fromDegrees(38.934722, -77.466667));
 			iadOuter2CPartCyl.setAltitudes(914.4, 3048.0);
 			iadOuter2CPartCyl.setTerrainConforming(false, false);
 			iadOuter2CPartCyl.setRadii(27780.0, 37040.0);
+			// TODO use method
 			iadOuter2CPartCyl.setAzimuths(Angle.fromDegrees(337.0),
 					Angle.fromDegrees(009.5));
-			iadOuter2CPartCyl.setValue(AVKey.DISPLAY_NAME,
-					"Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
+			iadOuter2CPartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter2CPartCyl, Color.BLUE);
 			airspaces.put("IAD-O2C", iadOuter2CPartCyl);
 
 			// Dulles Class B Outer 2D
 			PolyArc iadOuter2DPolyArc = new PolyArc();
 			iadOuter2DPolyArc.setLocations(Arrays.asList(
-					// LatLon.fromDegrees(38.9345964, -77.4666953),
 					LatLon.fromDegrees(38.934722, -77.466667),
 					LatLon.fromDegrees(39.263611, -77.395833),
-					LatLon.fromDegrees(39.275556, -77.347222) // ,
-					// LatLon.fromDegrees(39.1288, -77.2644)
-					));
+					LatLon.fromDegrees(39.275556, -77.347222)));
 			iadOuter2DPolyArc.setAltitudes(914.4, 3048.0);
 			iadOuter2DPolyArc.setRadius(27780.0);
+			// TODO use method
 			iadOuter2DPolyArc.setAzimuths(Angle.fromDegrees(009.5),
 					Angle.fromDegrees(30.7));
 			iadOuter2DPolyArc.setTerrainConforming(false, false);
-			iadOuter2DPolyArc.setValue(AVKey.DISPLAY_NAME,
-					"Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
+			iadOuter2DPolyArc.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter2DPolyArc, Color.BLUE);
 			airspaces.put("IAD-O2D", iadOuter2DPolyArc);
-
+			
+			// Dulles Class B Outer 2E
+			PartialCappedCylinder iadOuter2EPartCyl = new PartialCappedCylinder();
+			iadOuter2EPartCyl.setCenter(LatLon.fromDegrees(38.934722, -77.466667));
+			iadOuter2EPartCyl.setAltitudes(914.4, 3048.0);
+			iadOuter2EPartCyl.setTerrainConforming(false, false);
+			iadOuter2EPartCyl.setRadii(27780.0, 35188.0);
+			iadOuter2EPartCyl.setAzimuths(Angle.fromDegrees(makeAngle(38.934722, -77.4666673, 38.603056, -77.418611)),
+					Angle.fromDegrees(makeAngle(38.934722, -77.4666673, 38.610556, -77.568333)));
+			iadOuter2EPartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
+			this.setupDefaultMaterial(iadOuter2EPartCyl, Color.BLUE);
+			airspaces.put("IAD-O2E", iadOuter2EPartCyl);
+			
+			//F, G, H, I
+			// Dulles Class B Outer 2F
+			PartialCappedCylinder iadOuter2FPartCyl = new PartialCappedCylinder();	
+			iadOuter2FPartCyl.setCenter(LatLon.fromDegrees(38.934722, -77.466667));
+			iadOuter2FPartCyl.setAltitudes(914.4, 3048.0);
+			iadOuter2FPartCyl.setTerrainConforming(false, false);
+			iadOuter2FPartCyl.setRadii(27780.0, 37040.0);
+			iadOuter2FPartCyl.setAzimuths(Angle.fromDegrees(makeAngle(38.934722,-77.4666673,38.618333,-77.330833)),
+					Angle.fromDegrees(makeAngle(38.934722, -77.4666673, 38.603056, -77.418611)));
+			iadOuter2FPartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
+			this.setupDefaultMaterial(iadOuter2FPartCyl, Color.BLUE);
+			airspaces.put("IAD-O2F", iadOuter2FPartCyl);
+			
 			this.setAirspaces(airspaces.values());
 		}
 
@@ -707,8 +713,20 @@ public class AirspacesGA extends ApplicationTemplate {
 			this.setupDefaultMaterial(hefClassDCyl, Color.decode("#4B0082"));
 			airspaces.put("HEF-D", hefClassDCyl);
 			
+			this.setAirspaces(airspaces.values());	
+		}
+		
+		public void doRemoveHefClassD() {
+			Iterator<Map.Entry<String, Airspace>> iterator = airspaces
+					.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Map.Entry<String, Airspace> entry = iterator.next();
+				if (entry.getKey().contains("HEF")) {
+					iterator.remove();
+				}
+			}
+
 			this.setAirspaces(airspaces.values());
-			
 		}
 
 		public void doZoomToAirspaces() {
