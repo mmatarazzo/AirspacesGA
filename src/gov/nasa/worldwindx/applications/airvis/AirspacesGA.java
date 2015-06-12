@@ -120,8 +120,7 @@ public class AirspacesGA extends ApplicationTemplate {
 		}
 
 		protected void makePanel() {
-			this.setLayout(new GridLayout(0, 1, 0, 5)); // rows, cols, hgap,
-														// vgap
+			this.setLayout(new GridLayout(0, 1, 0, 5)); // rows, cols, hgap, vgap
 			this.setBorder(new CompoundBorder(BorderFactory.createEmptyBorder(
 					9, 9, 9, 9), new TitledBorder("Airspaces")));
 
@@ -365,7 +364,7 @@ public class AirspacesGA extends ApplicationTemplate {
 							.equals(SelectEvent.DRAG_END)
 							|| event.getEventAction().equals(SelectEvent.DRAG)) {
 						// Delegate dragging computations to a dragger.
-						// dragger.selected(event);
+						//dragger.selected(event);
 
 						// We missed any roll-over events while dragging, so
 						// highlight any under the cursor now,
@@ -414,9 +413,9 @@ public class AirspacesGA extends ApplicationTemplate {
 			a.getAttributes().setMaterial(new Material(color));
 			a.getAttributes().setOutlineMaterial(
 					new Material(WWUtil.makeColorBrighter(color)));
-			// Down from 0.8 for better vis
+			// Down from 0.8/0.9 for better vis
 			a.getAttributes().setOpacity(0.4);
-			a.getAttributes().setOutlineOpacity(0.9);
+			a.getAttributes().setOutlineOpacity(0.8);
 			a.getAttributes().setOutlineWidth(3.0);
 		}
 
@@ -534,7 +533,7 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadMid1PartCyl.setTerrainConforming(false, false);
 			iadMid1PartCyl.setRadii(12964.0, 22224.0);
 			// TODO use method
-			iadMid1PartCyl.setAzimuths(Angle.fromDegrees(144.0), Angle.fromDegrees(39.0));
+			iadMid1PartCyl.setAzimuths(Angle.fromDegrees(144.05), Angle.fromDegrees(38.97));
 			iadMid1PartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Middle - 1,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadMid1PartCyl, Color.BLUE);
 			airspaces.put("IAD-M1", iadMid1PartCyl);
@@ -548,7 +547,7 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadMid2PolyArc.setAltitudes(457.2, 3048.0);
 			iadMid2PolyArc.setRadius(12964.0);
 			// TODO use method
-			iadMid2PolyArc.setAzimuths(Angle.fromDegrees(39.0), Angle.fromDegrees(144.0));
+			iadMid2PolyArc.setAzimuths(Angle.fromDegrees(38.97), Angle.fromDegrees(144.05));
 			iadMid2PolyArc.setTerrainConforming(false, false);
 			iadMid2PolyArc.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Middle - 1,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadMid2PolyArc, Color.BLUE);
@@ -561,7 +560,7 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadOuter1APartCyl.setTerrainConforming(false, false);
 			iadOuter1APartCyl.setRadii(22224.0, 27780.0);
 			// TODO use methods
-			iadOuter1APartCyl.setAzimuths(Angle.fromDegrees(160.0), Angle.fromDegrees(30.7));
+			iadOuter1APartCyl.setAzimuths(Angle.fromDegrees(152.37), Angle.fromDegrees(30.58));
 			iadOuter1APartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 2,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter1APartCyl, Color.BLUE);
 			airspaces.put("IAD-O1A", iadOuter1APartCyl);
@@ -574,11 +573,25 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadOuter1BPolyArc.setAltitudes(762.0, 3048.0);
 			iadOuter1BPolyArc.setRadius(22224.0);
 			// TODO use method
-			iadOuter1BPolyArc.setAzimuths(Angle.fromDegrees(30.7), Angle.fromDegrees(39.0));
+			iadOuter1BPolyArc.setAzimuths(Angle.fromDegrees(30.58), Angle.fromDegrees(38.97));
 			iadOuter1BPolyArc.setTerrainConforming(false, false);
 			iadOuter1BPolyArc.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 2,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter1BPolyArc, Color.BLUE);
 			airspaces.put("IAD-O1B", iadOuter1BPolyArc);
+			
+			// Dulles Class B Outer 1C
+			PolyArc iadOuter1CPolyArc = new PolyArc();
+			iadOuter1CPolyArc.setLocations(Arrays.asList(
+					LatLon.fromDegrees(38.934722, -77.466667),
+					LatLon.fromDegrees(38.713056, -77.318056)));
+			iadOuter1CPolyArc.setAltitudes(762.0, 3048.0);
+			iadOuter1CPolyArc.setRadius(22224.0);
+			// TODO use method
+			iadOuter1CPolyArc.setAzimuths(Angle.fromDegrees(144.05), Angle.fromDegrees(152.37));
+			iadOuter1CPolyArc.setTerrainConforming(false, false);
+			iadOuter1CPolyArc.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 2,500 to 10,000 ft. MSL.");
+			this.setupDefaultMaterial(iadOuter1CPolyArc, Color.BLUE);
+			airspaces.put("IAD-O1C", iadOuter1CPolyArc);
 
 			// Dulles Class B Outer 2A
 			PartialCappedCylinder iadOuter2APartCyl = new PartialCappedCylinder();
@@ -587,8 +600,7 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadOuter2APartCyl.setTerrainConforming(false, false);
 			iadOuter2APartCyl.setRadii(27780.0, 37040.0);
 			// TODO use method
-			iadOuter2APartCyl.setAzimuths(Angle.fromDegrees(makeAngle(38.722222, -77.636111, 38.651389, -77.691944)), 
-					Angle.fromDegrees(337.0));
+			iadOuter2APartCyl.setAzimuths(Angle.fromDegrees(211.89), Angle.fromDegrees(329.09));
 			iadOuter2APartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 4,500 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter2APartCyl, Color.BLUE);
 			airspaces.put("IAD-O2A", iadOuter2APartCyl);
@@ -599,8 +611,7 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadOuter2BPartCyl.setAltitudes(914.4, 3048.0);
 			iadOuter2BPartCyl.setTerrainConforming(false, false);
 			iadOuter2BPartCyl.setRadii(27780.0, 37040.0);
-			iadOuter2BPartCyl.setAzimuths(Angle.fromDegrees(makeAngle(38.934722, -77.4666673, 38.610556, -77.568333)), 
-					Angle.fromDegrees(makeAngle(38.722222, -77.636111, 38.651389, -77.691944)));
+			iadOuter2BPartCyl.setAzimuths(Angle.fromDegrees(193.77), Angle.fromDegrees(211.89));
 			iadOuter2BPartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter2BPartCyl, Color.BLUE);
 			airspaces.put("IAD-O2B", iadOuter2BPartCyl);
@@ -612,8 +623,7 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadOuter2CPartCyl.setTerrainConforming(false, false);
 			iadOuter2CPartCyl.setRadii(27780.0, 37040.0);
 			// TODO use method
-			iadOuter2CPartCyl.setAzimuths(Angle.fromDegrees(337.0),
-					Angle.fromDegrees(009.5));
+			iadOuter2CPartCyl.setAzimuths(Angle.fromDegrees(329.09), Angle.fromDegrees(9.47));
 			iadOuter2CPartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter2CPartCyl, Color.BLUE);
 			airspaces.put("IAD-O2C", iadOuter2CPartCyl);
@@ -627,24 +637,28 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadOuter2DPolyArc.setAltitudes(914.4, 3048.0);
 			iadOuter2DPolyArc.setRadius(27780.0);
 			// TODO use method
-			iadOuter2DPolyArc.setAzimuths(Angle.fromDegrees(009.5),
-					Angle.fromDegrees(30.7));
+			iadOuter2DPolyArc.setAzimuths(Angle.fromDegrees(9.47), Angle.fromDegrees(30.58));
 			iadOuter2DPolyArc.setTerrainConforming(false, false);
 			iadOuter2DPolyArc.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter2DPolyArc, Color.BLUE);
 			airspaces.put("IAD-O2D", iadOuter2DPolyArc);
 			
-			// Dulles Class B Outer 2E
-			PartialCappedCylinder iadOuter2EPartCyl = new PartialCappedCylinder();
-			iadOuter2EPartCyl.setCenter(LatLon.fromDegrees(38.934722, -77.466667));
-			iadOuter2EPartCyl.setAltitudes(914.4, 3048.0);
-			iadOuter2EPartCyl.setTerrainConforming(false, false);
-			iadOuter2EPartCyl.setRadii(27780.0, 35188.0);
-			iadOuter2EPartCyl.setAzimuths(Angle.fromDegrees(makeAngle(38.934722, -77.4666673, 38.603056, -77.418611)),
-					Angle.fromDegrees(makeAngle(38.934722, -77.4666673, 38.610556, -77.568333)));
-			iadOuter2EPartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
-			this.setupDefaultMaterial(iadOuter2EPartCyl, Color.BLUE);
-			airspaces.put("IAD-O2E", iadOuter2EPartCyl);
+			// Dulles Class B Outer 2E - R6608A
+			PolyArc iadOuter2EPolyArc = new PolyArc();
+			iadOuter2EPolyArc.setLocations(Arrays.asList(
+					LatLon.fromDegrees(38.934722, -77.466667),
+					LatLon.fromDegrees(38.610556, -77.568333),
+					LatLon.fromDegrees(38.618333, -77.564167),
+					LatLon.fromDegrees(38.630833, -77.5345),
+					LatLon.fromDegrees(38.618333, -77.422333),
+					LatLon.fromDegrees(38.603056, -77.418611)));
+			iadOuter2EPolyArc.setAltitudes(914.4, 3048.0);
+			iadOuter2EPolyArc.setRadius(27780.0);
+			iadOuter2EPolyArc.setAzimuths(Angle.fromDegrees(173.54), Angle.fromDegrees(193.77));
+			iadOuter2EPolyArc.setTerrainConforming(false, false);
+			iadOuter2EPolyArc.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
+			this.setupDefaultMaterial(iadOuter2EPolyArc, Color.BLUE);
+			airspaces.put("IAD-O2E", iadOuter2EPolyArc);
 			
 			//F, G, H, I
 			// Dulles Class B Outer 2F
@@ -653,8 +667,7 @@ public class AirspacesGA extends ApplicationTemplate {
 			iadOuter2FPartCyl.setAltitudes(914.4, 3048.0);
 			iadOuter2FPartCyl.setTerrainConforming(false, false);
 			iadOuter2FPartCyl.setRadii(27780.0, 37040.0);
-			iadOuter2FPartCyl.setAzimuths(Angle.fromDegrees(makeAngle(38.934722,-77.4666673,38.618333,-77.330833)),
-					Angle.fromDegrees(makeAngle(38.934722, -77.4666673, 38.603056, -77.418611)));
+			iadOuter2FPartCyl.setAzimuths(Angle.fromDegrees(161.45), Angle.fromDegrees(173.54));
 			iadOuter2FPartCyl.setValue(AVKey.DISPLAY_NAME, "Dulles Class B Outer - 3,000 to 10,000 ft. MSL.");
 			this.setupDefaultMaterial(iadOuter2FPartCyl, Color.BLUE);
 			airspaces.put("IAD-O2F", iadOuter2FPartCyl);
@@ -761,6 +774,7 @@ public class AirspacesGA extends ApplicationTemplate {
 	}
 	
 	// Official airspace description does not specify azimuths needed for polyarcs
+	// TODO - implementation not accurate!
 	protected static double makeAngle(double lat1, double lon1, double lat2, double lon2) {
 		double x = Math.cos(lat1)*Math.sin(lat2) - Math.sin(lat1)*Math.cos(lat2) * Math.cos(lon2-lon1);
 		double y = Math.sin(lon2-lon1)*Math.cos(lat2);
